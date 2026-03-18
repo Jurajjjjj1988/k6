@@ -1,8 +1,28 @@
-import {makeAccNum, makeId, generateIBAN, generateSimplePiggyName} from "./dataCreators.js";
+import {
+  makeAccNum,
+  makeId,
+  generateIBAN,
+  generateSimplePiggyName,
+} from "./dataCreators.js";
 
-export const url = 'https://fintech-testlab.coderslab.pl/api';
-export const bearerToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1NyIsImp0aSI6ImZhM2Q3Y2U3MzE3ZmM0MGUyNzMwMTNhODQ1MzM3YzlkYWYwNmRhYjE3NzZlNDJiNjQ0MWUwOWYzMmE4ZTE5MTBiNzM0OWJkYTYzYmZhN2UyIiwiaWF0IjoxNzQ3NjcyNjY1LjkxNjM5MywibmJmIjoxNzQ3NjcyNjY1LjkxNjM5NywiZXhwIjoxNzc5MjA4NjY1Ljg5OTEzOSwic3ViIjoiMjUzNyIsInNjb3BlcyI6W119.ZbblXzn9W9el26-aSwNuRxFjYGZMwF21Pv39EPEUwE8kY2GzzM8krDwWKCgmAuq-EYMSzhA6Ca52fEGnOXUX6Rh95_TZ68Xn4I2rV1uY2cQc6b3RUW-uuR0yHtUjDez3RhJyG5CUF6zCAZ_BNMDm2Y3uUjtZOkl1q5TFcyFfDVrC5eYwPl2KOHwDbtb6W-9160yCaS1eQiJWlbLOIprqVafGId9eJucmW_8XLRcUbwA6Nq1r4g_n9IoT0CDNWA3olmKMNzMy6W6x5Xo_FfGZ3ylb-1ObR3N6LXhobDYlxiF1nm9iR2UrZbbKtgP_OMZ63rwJU99wS_SZOkGLQN3cVZlxpCk54yp_H56a5Cbho-D6Eq4_P3n_YroeB9QSULMSUACAH8u9iAykOMPtbKQ6PCGaPWuRly9ho5akeRrAoLufZ4NVq69aOZOr5QrDvaFH6b2xPyY0HA2FZMrhbfF4Bje1pxqa0sBW392RqDPxm1NKuljo9WAM9zRtPMTKCwncwuucRDr9uwXPtZJMtHP6YvbLhivtVGYHOgo0jdKVEUpWw8pV7tcwZtkRN4SfN0O_Uy9Axix8SytTsz4ZAT4bDEUE_omwae55AKeh0zUF8t-5kiXAfLnKjVjEC1_U50ByE2L9fd35rya0wKcUahlSIU-dsIYzGMoexxgdOV6zT3o'
-export let accountName = makeId(16);
-export let accountNumber = makeAccNum(13);
-export let iban1 = generateIBAN()
-export let piggyBankName = generateSimplePiggyName();
+// ─── Environment variables ────────────────────────────────────────────────────
+// Usage:
+//   k6 run -e API_TOKEN=<token> Scripts/load-test.e2e.k6.js
+//   k6 run -e API_TOKEN=<token> -e BASE_URL=https://staging.example.com/api Scripts/load-test.e2e.k6.js
+
+export const url = __ENV.BASE_URL || "https://fintech-testlab.coderslab.pl/api";
+
+if (!__ENV.API_TOKEN) {
+  throw new Error(
+    "[k6] Missing required env var: API_TOKEN\n" +
+      "Run: k6 run -e API_TOKEN=<your_token> Scripts/load-test.e2e.k6.js",
+  );
+}
+
+export const bearerToken = __ENV.API_TOKEN;
+
+// ─── Per-VU test data (generated fresh for each VU in init context) ───────────
+export const accountName = makeId(16);
+export const accountNumber = makeAccNum(13);
+export const iban1 = generateIBAN();
+export const piggyBankName = generateSimplePiggyName();
