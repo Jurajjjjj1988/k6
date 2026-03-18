@@ -1,0 +1,14 @@
+{
+  "name": "k6-performance-tests",
+  "version": "1.0.0",
+  "description": "k6 performance & load tests",
+  "devDependencies": {
+    "@types/k6": "^0.54.0",
+    "typescript": "^5.4.0"
+  },
+  "scripts": {
+    "smoke": "k6 run Scripts/01-smoke.ts",
+    "load": "k6 run Scripts/02-load.ts",
+    "auth": "k6 run Scripts/03-auth-correlation.ts"
+  }
+}
